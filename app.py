@@ -84,21 +84,19 @@ def main(db_name, seed):
     cur.execute('pragma encoding')
 
     df = pd.read_sql_query("select * from %s" %db_name, conn)
-    print(2)
     for index, row in df.iterrows():
-        print(3.1)
         row['adresse'] = clean_adresse(row['adresse'])
-        print(3.2)
         cur.execute(f"UPDATE {db_name} SET '%s' = ? WHERE id = ?" % 'adresse', (row['adresse'], row['id']))
-        print(3.3)
         row['siren'] = inpi_search(row['adresse'])
-        print(3.4)
         cur.execute(f"UPDATE {db_name} SET '%s' = ? WHERE id = ?" % 'siren', (row['siren'], row['id']))
-        cur.execute(f"UPDATE {db_name} SET '%s' = ? WHERE id = ?" % 'franchise', ('yes', row['id']))
+
+        conn.commit()
         if row['siren']:
             row['gerant'] = company_ninja(row['siren'])
+            cur.execute(f"UPDATE {db_name} SET '%s' = ? WHERE id = ?" % 'franchise', ('yes', row['id']))
             cur.execute(f"UPDATE {db_name} SET '%s' = ? WHERE id = ?" % 'gerant', (row['gerant'], row['id']))
-            cur.execute(f"UPDATE {db_name} SET '%s' = ? WHERE id = ?" % 'done', ('yes', row['id']))
+        cur.execute(f"UPDATE {db_name} SET '%s' = ? WHERE id = ?" % 'done', ('yes', row['id']))
+        conn.commit()
         sleep(0.5)
     return
 
