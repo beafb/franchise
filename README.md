@@ -10,6 +10,13 @@ Normalement sqlite3 est installé par défaut sur les mac
 Installer **virtualenv** : https://gist.github.com/Geoyi/d9fab4f609e9f75941946be45000632b
 C'est un utilitaire qui permet d'encapsuler les dépendances du script pour ne pas avoir à les installer sur toute la machine et entrer en conflit avec d'autres scripts.
 
+Installer **git** : https://git-scm.com/book/fr/v2/D%C3%A9marrage-rapide-Installation-de-Git
+
+Cloner le dossier dans le terminal :
+
+    git clone https://github.com/beafb/franchise.git
+    cd franchise
+
 Une fois dans le dossier "franchise", entrer dans le terminal :
 
     virtualenv venv
